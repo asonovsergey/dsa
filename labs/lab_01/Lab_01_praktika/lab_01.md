@@ -55,7 +55,7 @@ ax.set_ylabel('Время, сек')
 ```
 
 ```python
-![png](lab_01_files\lab_01_1.1.png)
+![png](lab_01_files\lab_01_1_1.png)
 ```
 
 ```python
@@ -89,7 +89,7 @@ ax.set_ylabel('Время, сек')
 ```
 
 ```python
-![png](lab_01_files\lab_01_1.3.png)
+![png](lab_01_files\lab_01_1_3.png)
 ```
 
 ```python
@@ -173,7 +173,7 @@ ax.set_ylabel('Время, сек')
 ```
 
 ```python
-![png](lab_01_files\lab_01_1.7.png)
+![png](lab_01_files\lab_01_1_7.png)
 ```
 
 ```python
