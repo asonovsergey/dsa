@@ -230,3 +230,7 @@ plt.show()
 ```python
 ![png](lab_01_files\lab_01_2.png)
 ```
+
+```python
+
+```
