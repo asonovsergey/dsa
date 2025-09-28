@@ -54,8 +54,10 @@ ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
 ```
 
+![png]("lab_01_files\lab_01_1_1.png")
+
 ```python
-![png](lab_01_files\lab_01_1_1.png)
+"""Задание 1.3"""
 ```
 
 ```python
@@ -88,9 +90,7 @@ ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
 ```
 
-```python
 ![png](lab_01_files\lab_01_1_3.png)
-```
 
 ```python
 """Задание 1.4"""
@@ -131,9 +131,7 @@ ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
 ```
 
-```python
 ![png](lab_01_files\lab_01_1.4.png)
-```
 
 ```python
 """Задание 1.7"""
@@ -172,9 +170,7 @@ ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
 ```
 
-```python
 ![png](lab_01_files\lab_01_1_7.png)
-```
 
 ```python
 """Задание 2"""
@@ -227,9 +223,7 @@ plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
-```python
 ![png](lab_01_files\lab_01_2.png)
-```
 
 ```python
 
