@@ -55,6 +55,10 @@ ax.set_ylabel('Время, сек')
 ```
 
 ```python
+![png](lab_01_files\lab_01_1.1.png)
+```
+
+```python
 import random, usage_time
 import matplotlib.pyplot as plt
 
@@ -82,6 +86,10 @@ ax = plt.gca()
 plt.title('Время выполнения алгоритма')
 ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
+```
+
+```python
+![png](lab_01_files\lab_01_1.3.png)
 ```
 
 ```python
@@ -124,6 +132,10 @@ ax.set_ylabel('Время, сек')
 ```
 
 ```python
+![png](lab_01_files\lab_01_1.4.png)
+```
+
+```python
 """Задание 1.7"""
 ```
 
@@ -158,6 +170,10 @@ ax = plt.gca()
 plt.title('Время выполнения алгоритма')
 ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
+```
+
+```python
+![png](lab_01_files\lab_01_1.7.png)
 ```
 
 ```python
@@ -209,4 +225,8 @@ ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
 plt.grid(True, alpha=0.3)
 plt.show()
+```
+
+```python
+![png](lab_01_files\lab_01_2.png)
 ```
