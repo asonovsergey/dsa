@@ -54,13 +54,14 @@ ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
 ```
 
-![png](lab_01_files/lab_01_1_1.png)
+![png](../lab_01_files/lab_01_1_1.png)
+
 
 ```python
 """Задание 1.3"""
 ```
 
-```python
+```python jupyter={"outputs_hidden": true}
 import random, usage_time
 import matplotlib.pyplot as plt
 
@@ -90,7 +91,7 @@ ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
 ```
 
-![png]("lab_01_files/lab_01_1_3.png")
+![png](../lab_01_files/lab_01_1_3.png)
 
 ```python
 """Задание 1.4"""
@@ -131,7 +132,8 @@ ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
 ```
 
-![png]("lab_01_files/lab_01_1.4.png")
+![png](../lab_01_files/lab_01_1_4.png)
+
 
 ```python
 """Задание 1.7"""
@@ -170,7 +172,7 @@ ax.set_xlabel('Номера элементов')
 ax.set_ylabel('Время, сек')
 ```
 
-![png]("lab_01_files/lab_01_1_7.png")
+![png](../lab_01_files/lab_01_1_7.png)
 
 ```python
 """Задание 2"""
@@ -217,13 +219,13 @@ for n in range(1, max_n + 1, step):
 plt.figure(figsize=(12, 6))
 plt.plot(n_values, times, 'ro-', linewidth=2, markersize=6)
 plt.title('Время выполненения алгоритма')
-ax.set_xlabel('Номера элементов')
-ax.set_ylabel('Время, сек')
+plt.set_xlabel('Номера элементов')
+plt.set_ylabel('Время, сек')
 plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
-![png]("lab_01_files/lab_01_2.png")
+![png](../lab_01_files/lab_01_2.png)
 
 ```python
 
