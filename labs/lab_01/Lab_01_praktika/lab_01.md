@@ -34,7 +34,7 @@ import matplotlib.pyplot as plt
 
 
 def get_by_index(v: list):
-    return v[random.randint(0, len(v)) - 1]
+    return v[random.randint(0, len(v) -1)]
 
 items = range(1, 10**5 * (20 - 2), 50000)
 func = usage_time.get_usage_time()(get_by_index)
@@ -61,7 +61,7 @@ ax.set_ylabel('Время, сек')
 """Задание 1.3"""
 ```
 
-```python jupyter={"outputs_hidden": true}
+```python
 import random, usage_time
 import matplotlib.pyplot as plt
 
