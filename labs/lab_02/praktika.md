@@ -100,90 +100,105 @@ Not in-place: Слиянием, Блочная
 ### **Сортировка слиянием:**
 
 
-function MERGE_SORT(A[0..n-1]):
-    if n ≤ 1:
-        return A
+АЛГОРИТМ СортировкаСлиянием(массив A):
+    ВХОД: массив A[0..n-1]
+    ВЫХОД: отсортированный массив A
     
-    mid = n // 2
-    left = A[0..mid-1]
-    right = A[mid..n-1]
+    ЕСЛИ n <= 1:
+        ВОЗВРАТ A  // базовый случай
     
-    left_sorted = MERGE_SORT(left)
-    right_sorted = MERGE_SORT(right)
+    // Разделение
+    середина = n // 2
+    левый_подмассив = A[0..середина-1]
+    правый_подмассив = A[середина..n-1]
     
-    return MERGE(left_sorted, right_sorted)
+    // Рекурсивная сортировка
+    отсортированный_левый = СортировкаСлиянием(левый_подмассив)
+    отсортированный_правый = СортировкаСлиянием(правый_подмассив)
+    
+    // Слияние
+    ВОЗВРАТ Слияние(отсортированный_левый, отсортированный_правый)
 
-function MERGE(left[0..p-1], right[0..q-1]):
-    result = new array[0..p+q-1]
+АЛГОРИТМ Слияние(массив L, массив R):
+    ВХОД: два отсортированных массива L и R
+    ВЫХОД: объединенный отсортированный массив
+    
+    результат = новый_массив[длина(L) + длина(R)]
     i = 0, j = 0, k = 0
     
-    while i < p and j < q:
-        if left[i] ≤ right[j]:
-            result[k] = left[i]
+    // Сравниваем и добавляем элементы по порядку
+    ПОКА i < длина(L) И j < длина(R):
+        ЕСЛИ L[i] <= R[j]:
+            результат[k] = L[i]
             i = i + 1
-        else:
-            result[k] = right[j]
+        ИНАЧЕ:
+            результат[k] = R[j]
             j = j + 1
         k = k + 1
     
-    while i < p:
-        result[k] = left[i]
+    // Добавляем оставшиеся элементы из L
+    ПОКА i < длина(L):
+        результат[k] = L[i]
         i = i + 1
         k = k + 1
-        
-    while j < q:
-        result[k] = right[j]
+    
+    // Добавляем оставшиеся элементы из R
+    ПОКА j < длина(R):
+        результат[k] = R[j]
         j = j + 1
         k = k + 1
     
-    return result
+    ВОЗВРАТ результат
+
 
 
 ### **Блочная сортировка:**
 
 
-function BUCKET_SORT(A[0..n-1]):
-    if n == 0:
-        return A
+АЛГОРИТМ БлочнаяСортировка(массив A, размер_блока):
+    ВХОД: массив A[0..n-1], размер блока
+    ВЫХОД: отсортированный массив A
+    
+    ЕСЛИ длина(A) == 0:
+        ВОЗВРАТ A
     
     // Находим диапазон значений
-    min_val = MIN(A)
-    max_val = MAX(A)
+    min_значение = минимальный_элемент(A)
+    max_значение = максимальный_элемент(A)
     
-    if min_val == max_val:
-        return A
-    
-    // Создаем n блоков
-    buckets = new array of n empty lists
+    // Создаем блоки
+    количество_блоков = (max_значение - min_значение) // размер_блока + 1
+    блоки = новый_массив[количество_блоков] из пустых списков
     
     // Распределяем элементы по блокам
-    for i = 0 to n-1:
-        normalized = (A[i] - min_val) / (max_val - min_val)
-        bucket_index = floor(normalized * (n - 1))
-        APPEND(buckets[bucket_index], A[i])
+    ДЛЯ КАЖДОГО элемента В A:
+        индекс_блока = (элемент - min_значение) // размер_блока
+        добавить элемент в блоки[индекс_блока]
     
-    // Сортируем каждый блок
-    for i = 0 to n-1:
-        if LENGTH(buckets[i]) > 0:
-            INSERTION_SORT(buckets[i])
+    // Сортируем каждый блок и объединяем
+    результат = пустой_массив
+    ДЛЯ КАЖДОГО блока В блоки:
+        отсортированный_блок = СортировкаВставками(блок)
+        добавить отсортированный_блок в результат
     
-    // Объединяем блоки
-    k = 0
-    for i = 0 to n-1:
-        for j = 0 to LENGTH(buckets[i]) - 1:
-            A[k] = buckets[i][j]
-            k = k + 1
-    
-    return A
+    ВОЗВРАТ результат
 
-function INSERTION_SORT(A[0..n-1]):
-    for i = 1 to n-1:
-        key = A[i]
+АЛГОРИТМ СортировкаВставками(массив A):
+    ВХОД: массив A[0..n-1]
+    ВЫХОД: отсортированный массив A
+    
+    ДЛЯ i ОТ 1 ДО длина(A) - 1:
+        ключ = A[i]
         j = i - 1
-        while j ≥ 0 and A[j] > key:
-            A[j+1] = A[j]
+        
+        // Сдвигаем элементы большие ключа
+        ПОКА j >= 0 И A[j] > ключ:
+            A[j + 1] = A[j]
             j = j - 1
-        A[j+1] = key
+        
+        A[j + 1] = ключ
+    
+    ВОЗВРАТ A
 
 
 ## **Задание 5**
@@ -243,9 +258,9 @@ function INSERTION_SORT(A[0..n-1]):
 import time
 import random
 import matplotlib.pyplot as plt
-import copy
+import math
 
-# Сортировка слиянием (Merge Sort)
+# 1. Сортировка слиянием (Merge Sort)
 def merge_sort(arr):
     if len(arr) <= 1:
         return arr
@@ -272,22 +287,47 @@ def merge(left, right):
     result.extend(right[j:])
     return result
 
-# Быстрая сортировка (Quick Sort)
-def quick_sort(arr):
-    if len(arr) <= 1:
+# 2. Блочная сортировка (Bucket Sort)
+def bucket_sort(arr, bucket_size=5):
+    if len(arr) == 0:
         return arr
     
-    pivot = arr[len(arr) // 2]
-    left = [x for x in arr if x < pivot]
-    middle = [x for x in arr if x == pivot]
-    right = [x for x in arr if x > pivot]
+    # Находим минимальное и максимальное значения
+    min_val = min(arr)
+    max_val = max(arr)
     
-    return quick_sort(left) + middle + quick_sort(right)
+    # Создаем блоки
+    bucket_count = (max_val - min_val) // bucket_size + 1
+    buckets = [[] for _ in range(bucket_count)]
+    
+    # Распределяем элементы по блокам
+    for num in arr:
+        bucket_index = (num - min_val) // bucket_size
+        buckets[bucket_index].append(num)
+    
+    # Сортируем каждый блок и объединяем
+    result = []
+    for bucket in buckets:
+        # Используем сортировку вставками для сортировки блоков
+        result.extend(insertion_sort(bucket))
+    
+    return result
+
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr
 
 # Функция для измерения времени выполнения
-def measure_sorting_time(sort_func, arr):
+def measure_sorting_time(sort_func, arr, *args):
+    arr_copy = arr.copy()
     start_time = time.time()
-    sort_func(arr.copy())
+    sort_func(arr_copy, *args)
     end_time = time.time()
     return end_time - start_time
 
@@ -306,8 +346,8 @@ def test_sorting_algorithms():
     sizes = [1000, 5000, 10000, 100000]  # n1, n2, n3, n4
     array_types = ['sorted', 'reverse_sorted', 'random']
     algorithms = {
-        'Сортировка слиянием': merge_sort,
-        'Быстрая сортировка': quick_sort
+        'Сортировка слиянием': (merge_sort, []),
+        'Блочная сортировка': (bucket_sort, [10])  # bucket_size = 10
     }
     
     results = {algo: {arr_type: [] for arr_type in array_types} for algo in algorithms}
@@ -319,8 +359,8 @@ def test_sorting_algorithms():
             test_array = generate_test_arrays(size, arr_type)
             print(f"\nТип массива: {arr_type}")
             
-            for algo_name, algo_func in algorithms.items():
-                time_taken = measure_sorting_time(algo_func, test_array)
+            for algo_name, (algo_func, args) in algorithms.items():
+                time_taken = measure_sorting_time(algo_func, test_array, *args)
                 results[algo_name][arr_type].append(time_taken)
                 print(f"{algo_name}: {time_taken:.4f} секунд")
     
@@ -345,6 +385,7 @@ def plot_results(results, sizes):
         axes[i].grid(True)
     
     plt.tight_layout()
+    plt.savefig('sorting_comparison.png')
     plt.show()
 
 # Ручная трассировка для небольших массивов
@@ -352,16 +393,32 @@ def manual_trace():
     print("=== РУЧНАЯ ТРАССИРОВКА ===")
     
     # Тестовый массив
-    test_array = [64, 34, 25, 12, 22, 11, 90]
+    test_array = [64, 34, 25, 12, 22, 11, 90, 5]
     print(f"Исходный массив: {test_array}")
     
     # Сортировка слиянием
+    print("\n--- Сортировка слиянием ---")
     sorted_merge = merge_sort(test_array.copy())
-    print(f"Сортировка слиянием: {sorted_merge}")
+    print(f"Результат: {sorted_merge}")
     
-    # Быстрая сортировка
-    sorted_quick = quick_sort(test_array.copy())
-    print(f"Быстрая сортировка: {sorted_quick}")
+    # Блочная сортировка
+    print("\n--- Блочная сортировка ---")
+    sorted_bucket = bucket_sort(test_array.copy(), 20)
+    print(f"Результат: {sorted_bucket}")
+
+# Анализ эффективности
+def analyze_efficiency(results, sizes):
+    print("\n=== АНАЛИЗ ЭФФЕКТИВНОСТИ ===")
+    for size in sizes:
+        print(f"\nДля n = {size}:")
+        for arr_type in ['sorted', 'reverse_sorted', 'random']:
+            merge_time = results['Сортировка слиянием'][arr_type][sizes.index(size)]
+            bucket_time = results['Блочная сортировка'][arr_type][sizes.index(size)]
+            
+            faster = "Слиянием" if merge_time < bucket_time else "Блочная"
+            difference = abs(merge_time - bucket_time)
+            
+            print(f"  {arr_type}: {faster} быстрее на {difference:.4f} сек")
 
 # Запуск тестирования
 if __name__ == "__main__":
@@ -376,73 +433,123 @@ if __name__ == "__main__":
     plot_results(results, sizes)
     
     # Анализ эффективности
-    print("\n=== АНАЛИЗ ЭФФЕКТИВНОСТИ ===")
-    for size in sizes:
-        print(f"\nДля n = {size}:")
-        for arr_type in ['sorted', 'reverse_sorted', 'random']:
-            merge_time = results['Сортировка слиянием'][arr_type][sizes.index(size)]
-            quick_time = results['Быстрая сортировка'][arr_type][sizes.index(size)]
-            
-            faster = "Слиянием" if merge_time < quick_time else "Быстрая"
-            difference = abs(merge_time - quick_time)
-            
-            print(f"  {arr_type}: {faster} быстрее на {difference:.4f} сек")
+    analyze_efficiency(results, sizes)
 ```
 
-![png](Lab_02_files.png/Lab_02_diagr.png)
+![png](Lab_02_files.png/diagr.png)
 
 
 ## **Ручная трассировка алгоритмов**
 
 
-### Сортировка слиянием для массива [64, 34, 25, 12, 22, 11, 90]:
+### Сортировка слиянием для массива [64, 34, 25, 12, 22, 11, 90, 5]:
 
 <!-- #raw -->
 Разделение:
-[64, 34, 25] и [12, 22, 11, 90]
-[64] [34, 25] и [12, 22] [11, 90]
-[64] [34] [25] и [12] [22] [11] [90]
+[64, 34, 25, 12] и [22, 11, 90, 5]
+[64, 34] и [25, 12] | [22, 11] и [90, 5]
+[64] [34] [25] [12] [22] [11] [90] [5]
 
 Слияние:
-[34, 64] + [25] → [25, 34, 64]
-[12, 22] + [11, 90] → [11, 12, 22, 90]
-[25, 34, 64] + [11, 12, 22, 90] → [11, 12, 22, 25, 34, 64, 90]
+[34, 64] + [12, 25] → [12, 25, 34, 64]
+[11, 22] + [5, 90] → [5, 11, 22, 90]
+[12, 25, 34, 64] + [5, 11, 22, 90] → [5, 11, 12, 22, 25, 34, 64, 90]
 <!-- #endraw -->
 
-### Быстрая сортировка для массива [64, 34, 25, 12, 22, 11, 90]:
+### Блочная сортировка для массива [64, 34, 25, 12, 22, 11, 90, 5] (bucket_size=20):
 
 
-Опорный элемент: 12
-Меньшие: [] | Равные: [12] | Большие: [64, 34, 25, 22, 11, 90]
+Диапазон значений: min=5, max=90
+Количество блоков: (90-5)//20 + 1 = 5 блоков
 
-Рекурсия для больших:
-Опорный: 25
-Меньшие: [22, 11] | Равные: [25] | Большие: [64, 34, 90]
+Распределение по блокам:
+Блок 0 [5-24]: [12, 22, 11, 5]
+Блок 1 [25-44]: [34, 25]
+Блок 2 [45-64]: [64]
+Блок 3 [65-84]: []
+Блок 4 [85-104]: [90]
 
-И т.д. до полной сортировки
+Сортировка блоков:
+Блок 0: [5, 11, 12, 22]
+Блок 1: [25, 34]
+Блок 2: [64]
+Блок 3: []
+Блок 4: [90]
+
+Объединение: [5, 11, 12, 22, 25, 34, 64, 90]
 
 
 ## **Анализ эффективности**
 
-
+<!-- #region jp-MarkdownHeadingCollapsed=true -->
 ### **Критерии сравнения:**
 #### 1.Временная сложность:
+##### Сортировка слиянием (Merge Sort):
 
-Сортировка слиянием: O(n log n) в худшем, среднем и лучшем случаях
 
-Быстрая сортировка: O(n log n) в среднем, O(n²) в худшем случае
+Лучший случай:   O(n log n)
+Средний случай:  O(n log n) 
+Худший случай:   O(n log n)
+Обоснование:
+
+Алгоритм всегда делит массив пополам: log n уровней рекурсии
+
+На каждом уровне выполняется слияние за O(n)
+
+Итого: O(n) × O(log n) = O(n log n)
+
+##### Блочная сортировка (Bucket Sort):
+
+Лучший случай:   O(n + k)
+Средний случай:  O(n + k)
+Худший случай:   O(n²)
+Обоснование:
+
+Лучший случай: равномерное распределение, все блоки содержат ≈ n/k элементов
+
+Худший случай: все элементы попадают в один блок → вырождается в O(n²)
+
+k - количество блоков
 
 #### 2.Память:
 
-Сортировка слиянием: O(n) дополнительной памяти
+##### Сортировка слиянием:
 
-Быстрая сортировка: O(log n) дополнительной памяти в среднем случае
+Требуемая память: O(n)
+Распределение памяти:
+
+Дополнительный массив для слияния: O(n)
+
+Стек вызовов рекурсии: O(log n)
+
+Итого: O(n)
+
+##### Блочная сортировка:
+
+Требуемая память: O(n + k)
+Распределение памяти:
+
+Массив блоков: O(k)
+
+Элементы в блоках: O(n)
+
+Итого: O(n + k)
 
 #### 3.Устойчивость:
 
-Сортировка слиянием: устойчивая
+##### Сортировка слиянием:устойчивая
 
-Быстрая сортировка: неустойчивая
+Сохраняет относительный порядок равных элементов
+
+Элементы из левого подмассива добавляются первыми
+
+##### Блочная сортировка : ЗАВИСИТ от алгоритма сортировки блоков
+Варианты:
+
+Устойчивая: если использовать устойчивую сортировку блоков (сортировку вставками)
+
+Неустойчивая: если использовать неустойчивую сортировку блоков
+<!-- #endregion -->
 
 ```python
 
